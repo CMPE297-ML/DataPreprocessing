@@ -1,5 +1,5 @@
-CREATE KEYSPACE nystock WITH replication = {'class' : 'SimpleStrategy', replication_factor' : 2};
 
+CREATE KEYSPACE nystock WITH replication = {'class' : 'SimpleStrategy', replication_factor' : 2};
 Create Table nystock.stock_data (
    permno int,
    date timestamp,
@@ -7,4 +7,3 @@ Create Table nystock.stock_data (
    PRIMARY KEY(permno, date,price))
    WITH CLUSTERING ORDER BY (date ASC)
    AND COMPRESSION = { 'sstable_compression' : 'SnappyCompressor'} ;
-

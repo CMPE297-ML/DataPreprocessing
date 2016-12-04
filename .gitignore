@@ -251,3 +251,7 @@ key-AWS.js
 
 #sqlite db file
 temp.db
+
+
+#ignore .csv
+*.csv
