@@ -2,10 +2,10 @@ var cassandra = require('cassandra-driver');
 
 var distance = cassandra.types.distance;
 var fs = require('fs');
-var dbURL = '127.0.0.1';
+var dbURL = 'localhost:9042';
 var client = new cassandra.Client({contactPoints: [dbURL],pooling: {
         coreConnectionsPerHost: {
-          [distance.local] : 250
+          [distance.local] : 1
         }
         } , keyspace: 'nystock'});
 
@@ -32,7 +32,12 @@ var processFile = function(file){
   });
   lineReader.on('line', function (line) {
     var data = line.split(',');
+	if(data)
+	{	
+		//console.log(data);	
+		
     var permno = data[0];
+
     var date = new Date(data[1].substring(0,4) + "/" + data[1].substring(4,6) + "/" + data[1].substring(6,8)).getTime();
     var price = data[46];
     var priceInt;
@@ -48,8 +53,9 @@ var processFile = function(file){
     client.execute(queryString, function (error, result) {
         if (!error){
         }else{
-          //console.log(error);
+          console.log(error);
         }
     });
+	}
   });
 };
