@@ -7,7 +7,6 @@ Repository for ML Project of CMPE297
 1. Install cassandraDB.
 2. Clone this repository.
 3. Install dependencies
-
   ```
 npm install
 ```
@@ -16,7 +15,7 @@ npm install
   ```
 node procFiles.js /Users/gauravchodwadia/Desktop/daily-files/
 ```
-5. Start calculating the averages and store in the DB
+5. Start calculating the averages and store in the DB (Not fully tested yet. May have bugs.)
 
   ```
 node calcAvg.js
