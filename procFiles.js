@@ -4,15 +4,14 @@ var distance = cassandra.types.distance;
 var fs = require('fs');
 var dbURL = '127.0.0.1';
 var client = new cassandra.Client({contactPoints: [dbURL],pooling: {
-        coreConnectionsPerHost: {
-          [distance.local] : 250
-        }
+          coreConnectionsPerHost: {
+            [distance.local] : 250
+          }
         } , keyspace: 'nystock'});
 
 var filePath = process.argv[2];
 
 //------------Read all the files in daily-files-----------------//
-
 fs.readdir(filePath, function(err, files){
   if(err){
     console.log("Error in reading daily-files: " + err);
@@ -30,9 +29,15 @@ var processFile = function(file){
   var lineReader = require('readline').createInterface({
     input: fs.createReadStream(filePath + file)
   });
+  var count = 0;
   lineReader.on('line', function (line) {
+    count++;
     var data = line.split(',');
     var permno = data[0];
+    //console.log(data[1] +"=="+ file +"=="+ count );
+    if(data[1] === undefined){
+      return;
+    }
     var date = new Date(data[1].substring(0,4) + "/" + data[1].substring(4,6) + "/" + data[1].substring(6,8)).getTime();
     var price = data[46];
     var priceInt;
