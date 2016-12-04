@@ -3,10 +3,11 @@ var fs = require('fs');
 var dbURL = '127.0.0.1';
 var client = new cassandra.Client({contactPoints: [dbURL], keyspace: 'nystock'});
 
+var filePath = process.argv[2];
 
 //------------Read all the files in daily-files-----------------//
-const path = './daily-files/';
-fs.readdir(path, function(err, files){
+
+fs.readdir(filePath, function(err, files){
   if(err){
     console.log("Error in reading daily-files: " + err);
   }else{
@@ -21,7 +22,7 @@ fs.readdir(path, function(err, files){
 
 var processFile = function(file){
   var lineReader = require('readline').createInterface({
-    input: fs.createReadStream(path + file)
+    input: fs.createReadStream(filePath + file)
   });
   lineReader.on('line', function (line) {
     var data = line.split(',');
