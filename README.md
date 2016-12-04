@@ -8,7 +8,7 @@ Repository for ML Project of CMPE297
 2. Create keyspace and table
 
   ```
-  CREATE KEYSPACE nystock WITH replication = {'class' : 'SimpleStrategy', replication_factor' : 2};
+  CREATE KEYSPACE nystock WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 2};
   Create Table nystock.stock_data (
      permno int,
      date timestamp,
