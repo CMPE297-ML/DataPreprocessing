@@ -7,6 +7,7 @@ Repository for ML Project of CMPE297
 1. Install cassandraDB.
 2. Clone this repository.
 3. Install dependencies
+
   ```
 npm install
 ```
