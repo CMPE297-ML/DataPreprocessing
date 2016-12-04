@@ -34,3 +34,4 @@ node procFiles.js /Users/gauravchodwadia/Desktop/daily-files/
   ```
 node calcAvg.js
 ```
+Total record should be 88,857,747
