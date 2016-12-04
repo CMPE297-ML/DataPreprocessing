@@ -1,7 +1,13 @@
 var cassandra = require('cassandra-driver');
+
+var distance = cassandra.types.distance;
 var fs = require('fs');
 var dbURL = '127.0.0.1';
-var client = new cassandra.Client({contactPoints: [dbURL], keyspace: 'nystock'});
+var client = new cassandra.Client({contactPoints: [dbURL],pooling: {
+        coreConnectionsPerHost: {
+          [distance.local] : 250
+        }
+        } , keyspace: 'nystock'});
 
 var filePath = process.argv[2];
 
