@@ -29,11 +29,10 @@ npm install
   ```
 node procFiles.js /Users/gauravchodwadia/Desktop/daily-files/
 node --max_old_space_size=16384 procFiles.js ../splitFiles/
-
 ```
 6. Start calculating the averages and store in the DB (Not fully tested yet. May have bugs.)
 
   ```
 node calcAvg.js
 ```
-Total record should be 88,857,747
+  Total record should be 88,857,747

@@ -2,17 +2,16 @@ var cassandra = require('cassandra-driver');
 
 var distance = cassandra.types.distance;
 var fs = require('fs');
-var dbURL = '127.0.0.1';
+var dbURL = 'localhost:9042';
 var client = new cassandra.Client({contactPoints: [dbURL],pooling: {
-        coreConnectionsPerHost: {
-          [distance.local] : 250
-        }
+          coreConnectionsPerHost: {
+            [distance.local] : 250
+          }
         } , keyspace: 'nystock'});
 
 var filePath = process.argv[2];
 
 //------------Read all the files in daily-files-----------------//
-
 fs.readdir(filePath, function(err, files){
   if(err){
     console.log("Error in reading daily-files: " + err);
