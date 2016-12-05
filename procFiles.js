@@ -2,7 +2,7 @@ var cassandra = require('cassandra-driver');
 
 var distance = cassandra.types.distance;
 var fs = require('fs');
-var dbURL = 'localhost:9042';
+var dbURL = '127.0.0.1:9042';
 var client = new cassandra.Client({contactPoints: [dbURL],pooling: {
           coreConnectionsPerHost: {
             [distance.local] : 250
@@ -17,9 +17,11 @@ fs.readdir(filePath, function(err, files){
     console.log("Error in reading daily-files: " + err);
   }else{
     console.log("Processing...!!");
+	var counter =0;
     files.forEach(function(file){
       if(file.split(".").pop() == "csv")
-      processFile(file);
+      
+	processFile(file);
     });
   }
 });
@@ -60,7 +62,7 @@ var processFile = function(file){
 
     if(queries.length==1000)
     {
-      console.log(JSON.stringify(queries));
+      //console.log(JSON.stringify(queries));
       client.batch(queries, { prepare: true }, function (err) {
    // All queries have been executed successfully
    // Or none of the changes have been applied, check err
