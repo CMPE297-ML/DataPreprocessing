@@ -27,10 +27,16 @@ fs.readdir(filePath, function(err, files){
 
 
 var processFile = function(file){
-  var lineReader = require('readline').createInterface({
-    input: fs.createReadStream(filePath + file)
+  // var lineReader = require('linebyline').createInterface({
+  //   input: fs.createReadStream(filePath + file)
+  // });
+  var readline = require('linebyline'),
+  lineReader = readline(filePath + file, {
+    retainBuffer: false //tell readline to retain buffer  
   });
-  lineReader.on('line', function (line) {
+
+  var queries = [];
+  lineReader.on('line', function (line,lineCount) {
     var data = line.split(',');
     var permno = data[0];
     var date = new Date(data[1].substring(0,4) + "/" + data[1].substring(4,6) + "/" + data[1].substring(6,8)).getTime();
@@ -44,12 +50,47 @@ var processFile = function(file){
       priceInt= Math.abs(parseFloat(price));
     }
 
-    var queryString = "insert into stock_data (permno,date,price) values ("+permno+",'"+date+"',"+priceInt+");";
-    client.execute(queryString, function (error, result) {
+    var queryString = "insert into stock_data (permno,date,price) values (?,?,?);";
+    /*client.execute(queryString, function (error, result) {
         if (!error){
         }else{
           //console.log(error);
         }
-    });
+    });*/
+    queries.push({"query" : queryString,"params":[permno,date,priceInt]});
+
+    if(queries.length==1000)
+    {
+      console.log(JSON.stringify(queries));
+      client.batch(queries, { prepare: true }, function (err) {
+   // All queries have been executed successfully
+   // Or none of the changes have been applied, check err
+   if(err)
+   {
+    console.log("error : "+err);
+   }
+   else
+   {
+    console.log("data inserted");
+   }
+   });
+    }
   });
-};
+
+/*
+  client.batch(queries, { prepare: true }, function (err) {
+   // All queries have been executed successfully
+   // Or none of the changes have been applied, check err
+   if(err)
+   {
+    console.log("error : "+error);
+   }
+   else
+   {
+    console.log("data inserted");
+   }
+
+});
+*/
+
+}
